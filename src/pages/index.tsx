@@ -6,9 +6,9 @@ import { api } from "~/utils/api";
 import { SignIn, SignInButton, SignUpButton, SignedOut, useUser } from "@clerk/nextjs";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
   const user = useUser();
-
+	
+  const { data } = api.post.getAll.useQuery();
   return (
     <>
       <Head>
@@ -23,6 +23,10 @@ const Home: NextPage = () => {
 		: <div> welcome <SignedOut /> </div>
 	}
         </div>
+	<div>
+		{data?.map((post) => (<div key={post.id}> {post.content} </div>))}
+	</div>
+
       </main>
     </>
   );
